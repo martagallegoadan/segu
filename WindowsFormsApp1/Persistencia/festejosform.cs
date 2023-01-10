@@ -305,12 +305,14 @@ namespace WindowsFormsApp1
 
                     }
                 }
+               
             }
             else
             {
                 _ = dgFestejo.DataSource;
+                
             }
-            Consultar();
+            
         }
 
         private void textFiltroUsu_TextChanged(object sender, EventArgs e)

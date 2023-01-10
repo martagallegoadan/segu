@@ -36,28 +36,45 @@ namespace WindowsFormsApp1.Persistencia
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (DatabaseEntities db = new DatabaseEntities())
+            try
             {
-                if (Id == null)
-
-                    modelo = new users();
-
-                modelo.Id = int.Parse(txtId.Text);
-                modelo.nombre = txtNombre.Text;
-                modelo.email = (txtEmail.Text);
-                modelo.password = txtPassword.Text;
-              
 
 
-                if (Id == null)
-                    db.users.Add(modelo);
-                else
+                using (DatabaseEntities db = new DatabaseEntities())
                 {
-                    db.Entry(modelo).State = System.Data.Entity.EntityState.Modified;
-                }
+                    if (Id == null)
 
-                db.SaveChanges();
-                this.Close();
+                        modelo = new users();
+
+                    modelo.Id = int.Parse(txtId.Text);
+                    modelo.nombre = txtNombre.Text;
+                    modelo.email = (txtEmail.Text);
+                    modelo.password = txtPassword.Text;
+
+
+
+                    if (Id == null)
+                        db.users.Add(modelo);
+                    else
+                    {
+                        db.Entry(modelo).State = System.Data.Entity.EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                    this.Close();
+                }
+      
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
             }
         }
 
@@ -67,7 +84,6 @@ namespace WindowsFormsApp1.Persistencia
         {
             try
             {
-
 
                 using (DatabaseEntities db = new DatabaseEntities())
                 {
